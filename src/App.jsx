@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const todoList = [
   { id: 1, title: "Drink a glass of water" },
