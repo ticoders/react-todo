@@ -1,12 +1,9 @@
 import TodoListItem from './TodoListItem';
+import PropTypes from 'prop-types';
 
-const todoList = [
-  { id: 1, title: "Drink a glass of water" },
-  { id: 2, title: "Study for upcoming Python quiz" },
-  { id: 3, title: "Create R&D strategy for wellness project" }
-];
+ 
 
-function TodoList (){
+function TodoList ({todoList}){
   return(
     <div>
       <h2>
@@ -20,5 +17,16 @@ function TodoList (){
     </div>
   );
 };
+
+
+TodoList.propTypes = {
+  todoList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
+
 
 export default TodoList;

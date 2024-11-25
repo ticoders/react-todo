@@ -1,21 +1,26 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-function  AddTodoForm(props) {
+function  AddTodoForm({onAddTodo}) {
+
+  const [todoTitle, setTodoTitle] = useState('');
+
+  const handleTitleChange = (event) => {
+    setTodoTitle(event.target.value)
+  }
 
   const handleAddTodo = (event) => {
 
     event.preventDefault();
-    const todoTitle = event.target.title.value;
-    props.onAddTodo(todoTitle);
-    console.log(todoTitle);
-    event.target.reset();
+    onAddTodo({ title: todoTitle, id: Date.now() });
+    setTodoTitle('');
 
   }
   return (
      
     <form onSubmit={handleAddTodo}>
       <label htmlFor="taskName"> Title  </label>
-      <input type="text" id="taskName" name="title" />
+      <input type="text" id="taskName" name="title" value={todoTitle} onChange={handleTitleChange} />
       <button type="submit">Add Task</button>
     </form>
   );

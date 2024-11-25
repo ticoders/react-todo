@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-function TodoListItem(props){
+function TodoListItem({todo}){
     return (
         <li>
-            {props.todo.title}
+            {todo.title}
         </li>
     );
 }
