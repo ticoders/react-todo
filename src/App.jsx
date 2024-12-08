@@ -1,24 +1,22 @@
+import { useState } from 'react';
+import TodoList from './TodoList';
+import AddTodoForm from './AddTodoForm';
+ 
+function App() {
 
+  const [todoList, setTodoList] = useState([]);
 
-const todoList = [
-  { id: 1, title: "Drink a glass of water" },
-  { id: 2, title: "Study for upcoming Python quiz" },
-  { id: 3, title: "Create R&D strategy for wellness project" }
-];
+  const addTodo = (newTodo) => {
+    setTodoList((prevList) => [...prevList, newTodo]) };
 
-function App (){
-  return(
+  return (
     <div>
-      <h1>
-        Daily To-do List
-      </h1>
-      <ul>
-        {todoList.map((item) => (
-          <li key={item.id}>{item.title}</li>
-        ))}
-      </ul>
+      <h1>Add a list Item</h1>
+      <AddTodoForm onAddTodo={addTodo} />
+      <TodoList todoList = {todoList} />
     </div>
+
   );
-};
+}
 
 export default App;
