@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
  
 
-function TodoList ({todoList}){
+function TodoList ({todoList, onRemoveTodo}) {
   return(
     <div>
       <h2>
@@ -11,7 +11,7 @@ function TodoList ({todoList}){
       </h2>
       <ul>
         {todoList.map((todo) => (
-          <TodoListItem key={todo.id} todo={todo} />
+          <TodoListItem key={todo.id} todo={todo} onRemoveTodo={onRemoveTodo} />
         ))}
       </ul>
     </div>
@@ -26,6 +26,7 @@ TodoList.propTypes = {
       title: PropTypes.string.isRequired,
     })
   ).isRequired,
+  onRemoveTodo: PropTypes.func.isRequired,
 };
 
 
