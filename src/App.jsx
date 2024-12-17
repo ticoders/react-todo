@@ -1,57 +1,56 @@
-import { useState } from 'react';
-import TodoList from './TodoList';
-import AddTodoForm from './AddTodoForm';
- 
-function App() {
-
-  const [todoList, setTodoList] = useState([]);
-
-  const addTodo = (newTodo) => {
-    setTodoList((prevList) => [...prevList, newTodo]) };
-
-  return (
-<<<<<<< Updated upstream
-
-
-const todoList = [
-  { id: 1, title: "Drink a glass of water" },
-  { id: 2, title: "Study for upcoming Python quiz" },
-  { id: 3, title: "Create R&D strategy for wellness project" }
-];
-=======
 import { useEffect, useState } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
 
-const useSemiPersistentState = () => {
-
-  const savedTodoList = JSON.parse(localStorage.getItem("savedTodoList") || "[]")
-  const [todoList, setTodoList] = useState(savedTodoList);
-
+const App = () => {
+  const [todoList, setTodoList] = useState([]);
+  const [todoTitle, setTodoTitle] = useState('');
+ 
   useEffect(() => {
-    localStorage.setItem("savedTodoList", JSON.stringify(todoList));
+    const savedTodos = localStorage.getItem('todoList');
+    if (savedTodos) {
+      setTodoList(JSON.parse(savedTodos));
+    }
+  }, []);
+
+   
+  useEffect(() => {
+    if (todoList.length > 0) {
+      console.log("Saving to Local Storage:", todoList);  
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    }
   }, [todoList]);
 
-  return [todoList, setTodoList];
+   
+  const addTodo = (event) => {
+    event.preventDefault();
+    if (!todoTitle.trim()) return;
 
-}
+    const newTodo = {
+      title: todoTitle,
+      id: Date.now(),
+    };
+
+    setTodoList([...todoList, newTodo]);
+    setTodoTitle('');
+  };
  
-function App() {
-  
-  const [todoList,setTodoList] = useSemiPersistentState();
-  const addTodo = (newTodo) => {
-    setTodoList((prevList) => [...prevList, newTodo]) };
->>>>>>> Stashed changes
+  const removeTodo = (id) => {
+    const updatedTodoList = todoList.filter((todo) => todo.id !== id);
+    setTodoList(updatedTodoList);
+  };
 
-function App (){
-  return(
+  return (
     <div>
-      <h1>Add a list Item</h1>
-      <AddTodoForm onAddTodo={addTodo} />
-      <TodoList todoList = {todoList} />
+      <h1>Todo List</h1>
+      <AddTodoForm
+        todoTitle={todoTitle}
+        handleTitleChange={(event) => setTodoTitle(event.target.value)}
+        handleAddTodo={addTodo}
+      />
+      <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
     </div>
-
   );
-}
+};
 
 export default App;
