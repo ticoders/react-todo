@@ -5,21 +5,29 @@ import AddTodoForm from './AddTodoForm';
 const App = () => {
   const [todoList, setTodoList] = useState([]);
   const [todoTitle, setTodoTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
  
   useEffect(() => {
-    const savedTodos = localStorage.getItem('todoList');
-    if (savedTodos) {
-      setTodoList(JSON.parse(savedTodos));
-    }
-  }, []);
+  new Promise((resolve) => {
+    setTimeout(() => {
+      const savedTodos = JSON.parse(localStorage.getItem('todoList') || '[]');
+      resolve(savedTodos);
+    }, 2000);  
+  }).then((fetchedTodos) => {
+    setTodoList(fetchedTodos);
+    setIsLoading(false); 
+  });
+}, []);
+
 
    
-  useEffect(() => {
-    if (todoList.length > 0) {
-      console.log("Saving to Local Storage:", todoList);  
-      localStorage.setItem('todoList', JSON.stringify(todoList));
-    }
-  }, [todoList]);
+ useEffect(() => {
+  if (!isLoading) {
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+  }
+}, [todoList, isLoading]);
+
 
    
   const addTodo = (event) => {
@@ -41,16 +49,23 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Todo List</h1>
-      <AddTodoForm
-        todoTitle={todoTitle}
-        handleTitleChange={(event) => setTodoTitle(event.target.value)}
-        handleAddTodo={addTodo}
-      />
-      <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-    </div>
-  );
+  <div>
+    <h1>Todo List</h1>
+    {isLoading ? (
+      <p>Loading...</p>
+    ) : (
+      <>
+        <AddTodoForm
+          todoTitle={todoTitle}
+          handleTitleChange={(event) => setTodoTitle(event.target.value)}
+          handleAddTodo={addTodo}
+        />
+        <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+      </>
+    )}
+  </div>
+);
+
 };
 
 export default App;
