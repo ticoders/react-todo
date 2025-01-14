@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
+import  {BrowserRouter , Routes , Route} from 'react-router-dom';
 
 const App = () => {
   const [todoList, setTodoList] = useState([]);
@@ -67,6 +68,9 @@ const App = () => {
   };
 
   return (
+  <BrowserRouter>
+  <Routes>
+  <Route path="/" element={
   <div>
     <h1>Todo List</h1>
     {isLoading ? (
@@ -82,8 +86,15 @@ const App = () => {
       </>
     )}
   </div>
+  }/>
+  <Route path="/new" element = {
+    <div>
+      <h1>New To-Do List</h1>
+    </div>
+  }/>
+</Routes>  
+</BrowserRouter>
 );
-
 };
 
 export default App;
