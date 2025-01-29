@@ -1,16 +1,13 @@
 
 import PropTypes from 'prop-types';
-import styles from './TodoListItem.module.css';
- 
-
 
 const TodoListItem = ({todo, onRemoveTodo}) => {
   return (
-  <li className={styles.ListItem}>
+  <li>
       {todo.title}
-      <button className={styles.button} type = "button" onClick={() => onRemoveTodo(todo.id)}>Remove</button>
+      <button type = "button" onClick={() => onRemoveTodo(todo.id)}>Remove</button>
   </li>
-  );
+    );
 }
 
 TodoListItem.propTypes = {
