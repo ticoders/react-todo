@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
+import  {BrowserRouter , Routes , Route} from 'react-router-dom';
+import styles from './App.module.css';
 
 const App = () => {
   const [todoList, setTodoList] = useState([]);
@@ -67,23 +69,46 @@ const App = () => {
   };
 
   return (
-  <div>
-    <h1>Todo List</h1>
-    {isLoading ? (
-      <p>Loading...</p>
-    ) : (
-      <>
-        <AddTodoForm
-          todoTitle={todoTitle}
-          handleTitleChange={(event) => setTodoTitle(event.target.value)}
-          handleAddTodo={addTodo}
-        />
-        <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-      </>
-    )}
-  </div>
-);
+  <BrowserRouter>
+  <Routes>
+  <Route path="/" element={
+  <div className={styles.App}>
+      <div className={styles.AppHeader}>
+        <nav className={styles.Nav}>
+        <a href="#home" className={styles.NavItem}>
+          Home
+        </a>
+        <a href="#about" className={styles.NavItem}>
+          About
+        </a>
+      </nav>
+        <h1 className={styles.AppTitle}>Add a Task</h1>
+        {isLoading ? (
+          <p className={styles.LoadingMessage}>Loading...</p>
+        ) : (
+          <>
+            <AddTodoForm
+              todoTitle={todoTitle}
+              handleTitleChange={(event) => setTodoTitle(event.target.value)}
+              handleAddTodo={addTodo}
+            />
+            <div className={styles.TodoListContainer}>
+              <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
 
+  }/>
+  <Route path="/new" element = {
+    <div>
+      <h1>New To-Do List</h1>
+    </div>
+  }/>
+</Routes>  
+</BrowserRouter>
+);
 };
 
 export default App;
