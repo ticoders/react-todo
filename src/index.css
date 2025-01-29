@@ -42,6 +42,10 @@ h1 {
   color: #f4f4f4;
 }
 
+p {
+  font-size: 1em;
+  margin: 20px;
+}
 
 button {
   border-radius: 8px;
